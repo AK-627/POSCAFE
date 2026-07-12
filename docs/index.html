@@ -3,387 +3,261 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sky Nether — Modern Café Management System</title>
-  <meta name="description" content="A cloud-based SaaS café management system with real-time sync, offline mode, multi-tenant architecture, and role-based access control." />
+  <title>Sky Nether — Café Management System</title>
+  <meta name="description" content="Sky Nether POS — A modern café management system with real-time sync, kitchen display, and multi-tenant architecture." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Navigation -->
-  <nav class="nav" id="nav">
-    <div class="nav-container">
-      <a href="#" class="nav-logo">
+  <div class="app" id="app">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
         <span class="logo-icon">☕</span>
         <span class="logo-text">Sky Nether</span>
-      </a>
-      <div class="nav-links">
-        <a href="#features">Features</a>
-        <a href="#architecture">Architecture</a>
-        <a href="#modules">Modules</a>
-        <a href="#tech">Tech Stack</a>
-        <a href="https://github.com/AK-627/POSCAFE" class="nav-btn" target="_blank" rel="noopener">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-          GitHub
+      </div>
+      <nav class="sidebar-nav">
+        <a href="#dashboard" class="nav-item active" data-view="dashboard">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          <span>Dashboard</span>
         </a>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="hero-bg">
-      <div class="hero-gradient"></div>
-      <div class="hero-grid"></div>
-      <div class="hero-glow hero-glow-1"></div>
-      <div class="hero-glow hero-glow-2"></div>
-    </div>
-    <div class="hero-content">
-      <div class="hero-badge">
-        <span class="badge-dot"></span>
-        Production-Ready Backend • 22 Modules
-      </div>
-      <h1 class="hero-title">
-        <span class="hero-title-line">Café Management</span>
-        <span class="hero-title-line hero-title-gradient">Reimagined.</span>
-      </h1>
-      <p class="hero-subtitle">
-        A modern, cloud-based SaaS platform for cafés — real-time order sync,
-        kitchen displays, multi-tenant architecture, and offline-first design.
-      </p>
-      <div class="hero-actions">
-        <a href="#architecture" class="btn btn-primary">
-          <span>Explore Architecture</span>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        <a href="#pos" class="nav-item" data-view="pos">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h4M6 12h8M6 16h6"/></svg>
+          <span>POS</span>
         </a>
-        <a href="https://github.com/AK-627/POSCAFE" target="_blank" class="btn btn-secondary" rel="noopener">
-          View Source Code
+        <a href="#tables" class="nav-item" data-view="tables">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+          <span>Tables</span>
         </a>
-      </div>
-      <div class="hero-stats">
-        <div class="stat">
-          <span class="stat-value">22</span>
-          <span class="stat-label">Backend Modules</span>
-        </div>
-        <div class="stat-divider"></div>
-        <div class="stat">
-          <span class="stat-value">18</span>
-          <span class="stat-label">API Endpoints Groups</span>
-        </div>
-        <div class="stat-divider"></div>
-        <div class="stat">
-          <span class="stat-value">4</span>
-          <span class="stat-label">WebSocket Gateways</span>
-        </div>
-        <div class="stat-divider"></div>
-        <div class="stat">
-          <span class="stat-value">5</span>
-          <span class="stat-label">User Roles</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Features Section -->
-  <section class="section" id="features">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag">Core Capabilities</span>
-        <h2 class="section-title">Everything a café needs.<br/>Nothing it doesn't.</h2>
-      </div>
-      <div class="features-grid">
-        <div class="feature-card feature-card-lg" data-delay="0">
-          <div class="feature-icon feature-icon-blue">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-          </div>
-          <h3>Real-Time Sync</h3>
-          <p>4 WebSocket gateways keep tables, kitchen displays, notifications, and cross-device data perfectly in sync across all connected clients.</p>
-          <div class="feature-tags">
-            <span>/tables</span><span>/kitchen</span><span>/sync</span><span>/notifications</span>
-          </div>
-        </div>
-        <div class="feature-card" data-delay="100">
-          <div class="feature-icon feature-icon-purple">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          </div>
-          <h3>Role-Based Access</h3>
-          <p>5 roles (Owner, Manager, Cashier, Waiter, Chef) with granular RBAC on every endpoint. JWT + refresh token auth with session verification.</p>
-        </div>
-        <div class="feature-card" data-delay="200">
-          <div class="feature-icon feature-icon-green">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
-          </div>
-          <h3>Multi-Tenant</h3>
-          <p>Complete data isolation per café with tenant-scoped queries, Row-Level Security, and per-branch filtering throughout the stack.</p>
-        </div>
-        <div class="feature-card" data-delay="300">
-          <div class="feature-icon feature-icon-amber">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18.36 6.64a9 9 0 11-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg>
-          </div>
-          <h3>Offline-First</h3>
-          <p>Operation queue with retry logic, network detection health endpoints, and automatic batch sync when connectivity is restored.</p>
-        </div>
-        <div class="feature-card" data-delay="400">
-          <div class="feature-icon feature-icon-rose">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-          </div>
-          <h3>Kitchen Display</h3>
-          <p>Priority-scored kitchen queue (critical → rush → normal) based on elapsed time. Real-time item-level status tracking for chefs.</p>
-        </div>
-        <div class="feature-card" data-delay="500">
-          <div class="feature-icon feature-icon-cyan">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-          </div>
-          <h3>Billing & Invoicing</h3>
-          <p>Full payment lifecycle (cash, card, digital wallets), split payments, refunds, invoice generation, and financial audit trails.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Architecture Section -->
-  <section class="section section-dark" id="architecture">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag">System Design</span>
-        <h2 class="section-title">Built for scale.<br/>Designed for reliability.</h2>
-      </div>
-      <div class="arch-diagram">
-        <div class="arch-layer">
-          <div class="arch-layer-label">Security Layer</div>
-          <div class="arch-nodes">
-            <div class="arch-node arch-node-security">JWT Auth Guard</div>
-            <div class="arch-node arch-node-security">Roles Guard</div>
-            <div class="arch-node arch-node-security">@Public Decorator</div>
-          </div>
-        </div>
-        <div class="arch-connector">
-          <svg width="24" height="32" viewBox="0 0 24 32"><path d="M12 0v32" stroke="rgba(139,92,246,0.5)" stroke-width="2" stroke-dasharray="4 4"/><circle cx="12" cy="16" r="3" fill="rgb(139,92,246)"/></svg>
-        </div>
-        <div class="arch-layer">
-          <div class="arch-layer-label">Real-Time Layer</div>
-          <div class="arch-nodes">
-            <div class="arch-node arch-node-ws">/tables</div>
-            <div class="arch-node arch-node-ws">/kitchen</div>
-            <div class="arch-node arch-node-ws">/sync</div>
-            <div class="arch-node arch-node-ws">/notifications</div>
-          </div>
-        </div>
-        <div class="arch-connector">
-          <svg width="24" height="32" viewBox="0 0 24 32"><path d="M12 0v32" stroke="rgba(59,130,246,0.5)" stroke-width="2" stroke-dasharray="4 4"/><circle cx="12" cy="16" r="3" fill="rgb(59,130,246)"/></svg>
-        </div>
-        <div class="arch-layer">
-          <div class="arch-layer-label">Core Business</div>
-          <div class="arch-nodes">
-            <div class="arch-node arch-node-core">Menu</div>
-            <div class="arch-node arch-node-core">Tables</div>
-            <div class="arch-node arch-node-core">Orders</div>
-            <div class="arch-node arch-node-core">Kitchen</div>
-            <div class="arch-node arch-node-core">Billing</div>
-            <div class="arch-node arch-node-core">Customers</div>
-          </div>
-        </div>
-        <div class="arch-connector">
-          <svg width="24" height="32" viewBox="0 0 24 32"><path d="M12 0v32" stroke="rgba(16,185,129,0.5)" stroke-width="2" stroke-dasharray="4 4"/><circle cx="12" cy="16" r="3" fill="rgb(16,185,129)"/></svg>
-        </div>
-        <div class="arch-layer">
-          <div class="arch-layer-label">Platform Services</div>
-          <div class="arch-nodes">
-            <div class="arch-node arch-node-platform">Staff</div>
-            <div class="arch-node arch-node-platform">Reports</div>
-            <div class="arch-node arch-node-platform">Audit</div>
-            <div class="arch-node arch-node-platform">Notifications</div>
-            <div class="arch-node arch-node-platform">Subscriptions</div>
-            <div class="arch-node arch-node-platform">Printer</div>
-            <div class="arch-node arch-node-platform">Export</div>
-            <div class="arch-node arch-node-platform">Offline</div>
-          </div>
-        </div>
-        <div class="arch-connector">
-          <svg width="24" height="32" viewBox="0 0 24 32"><path d="M12 0v32" stroke="rgba(245,158,11,0.5)" stroke-width="2" stroke-dasharray="4 4"/><circle cx="12" cy="16" r="3" fill="rgb(245,158,11)"/></svg>
-        </div>
-        <div class="arch-layer">
-          <div class="arch-layer-label">Infrastructure</div>
-          <div class="arch-nodes">
-            <div class="arch-node arch-node-infra">PostgreSQL + RLS</div>
-            <div class="arch-node arch-node-infra">Redis</div>
-            <div class="arch-node arch-node-infra">Socket.IO</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Modules Section -->
-  <section class="section" id="modules">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag">Backend Modules</span>
-        <h2 class="section-title">22 modules.<br/>Zero TypeScript errors.</h2>
-      </div>
-      <div class="modules-grid">
-        <div class="module-card"><div class="module-dot module-dot-blue"></div><span class="module-name">Auth</span><span class="module-desc">JWT, refresh tokens, sessions</span></div>
-        <div class="module-card"><div class="module-dot module-dot-blue"></div><span class="module-name">Users</span><span class="module-desc">CRUD, role management</span></div>
-        <div class="module-card"><div class="module-dot module-dot-blue"></div><span class="module-name">Tenants</span><span class="module-desc">Multi-tenant registration</span></div>
-        <div class="module-card"><div class="module-dot module-dot-green"></div><span class="module-name">Menu</span><span class="module-desc">Categories, items, pricing</span></div>
-        <div class="module-card"><div class="module-dot module-dot-green"></div><span class="module-name">Tables</span><span class="module-desc">Floor plan, status, grouping</span></div>
-        <div class="module-card"><div class="module-dot module-dot-green"></div><span class="module-name">Orders</span><span class="module-desc">Full lifecycle, price snapshots</span></div>
-        <div class="module-card"><div class="module-dot module-dot-green"></div><span class="module-name">Kitchen</span><span class="module-desc">Priority scoring, station view</span></div>
-        <div class="module-card"><div class="module-dot module-dot-green"></div><span class="module-name">Billing</span><span class="module-desc">Payments, refunds, invoices</span></div>
-        <div class="module-card"><div class="module-dot module-dot-green"></div><span class="module-name">Customers</span><span class="module-desc">CRM, loyalty, GDPR</span></div>
-        <div class="module-card"><div class="module-dot module-dot-purple"></div><span class="module-name">Sync</span><span class="module-desc">WebSocket, conflict detection</span></div>
-        <div class="module-card"><div class="module-dot module-dot-purple"></div><span class="module-name">Staff</span><span class="module-desc">Scheduling, clock in/out</span></div>
-        <div class="module-card"><div class="module-dot module-dot-purple"></div><span class="module-name">Reports</span><span class="module-desc">Sales, peak hours, profit</span></div>
-        <div class="module-card"><div class="module-dot module-dot-purple"></div><span class="module-name">Audit</span><span class="module-desc">Logging, entity history</span></div>
-        <div class="module-card"><div class="module-dot module-dot-amber"></div><span class="module-name">Notifications</span><span class="module-desc">WebSocket push, preferences</span></div>
-        <div class="module-card"><div class="module-dot module-dot-amber"></div><span class="module-name">Subscriptions</span><span class="module-desc">Plans, trials, billing</span></div>
-        <div class="module-card"><div class="module-dot module-dot-amber"></div><span class="module-name">Export</span><span class="module-desc">CSV, tax reports, backups</span></div>
-        <div class="module-card"><div class="module-dot module-dot-amber"></div><span class="module-name">Printer</span><span class="module-desc">Queue, retry, receipts</span></div>
-        <div class="module-card"><div class="module-dot module-dot-amber"></div><span class="module-name">Offline</span><span class="module-desc">Operation queue, health check</span></div>
-        <div class="module-card"><div class="module-dot module-dot-slate"></div><span class="module-name">Database</span><span class="module-desc">Migrations, RLS, interceptor</span></div>
-        <div class="module-card"><div class="module-dot module-dot-slate"></div><span class="module-name">Config</span><span class="module-desc">Centralized env management</span></div>
-        <div class="module-card"><div class="module-dot module-dot-slate"></div><span class="module-name">Common</span><span class="module-desc">Guards, decorators, pipes</span></div>
-        <div class="module-card"><div class="module-dot module-dot-slate"></div><span class="module-name">Health</span><span class="module-desc">Health check endpoint</span></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Tech Stack Section -->
-  <section class="section section-dark" id="tech">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag">Technology</span>
-        <h2 class="section-title">Modern stack.<br/>Battle-tested tools.</h2>
-      </div>
-      <div class="tech-grid">
-        <div class="tech-category">
-          <h3 class="tech-cat-title">Backend</h3>
-          <div class="tech-items">
-            <div class="tech-item"><span class="tech-icon">🟢</span>Node.js 18+ / TypeScript</div>
-            <div class="tech-item"><span class="tech-icon">🔴</span>NestJS Framework</div>
-            <div class="tech-item"><span class="tech-icon">🐘</span>PostgreSQL + Row-Level Security</div>
-            <div class="tech-item"><span class="tech-icon">🔴</span>Redis (caching + sessions)</div>
-            <div class="tech-item"><span class="tech-icon">🔌</span>Socket.IO (4 gateways)</div>
-            <div class="tech-item"><span class="tech-icon">🔐</span>JWT + Refresh Token Auth</div>
-            <div class="tech-item"><span class="tech-icon">📊</span>TypeORM</div>
-            <div class="tech-item"><span class="tech-icon">📄</span>Swagger/OpenAPI</div>
-          </div>
-        </div>
-        <div class="tech-category">
-          <h3 class="tech-cat-title">Frontend (Planned)</h3>
-          <div class="tech-items">
-            <div class="tech-item"><span class="tech-icon">⚡</span>Next.js 14+</div>
-            <div class="tech-item"><span class="tech-icon">⚛️</span>React + TypeScript</div>
-            <div class="tech-item"><span class="tech-icon">🎨</span>Tailwind CSS</div>
-            <div class="tech-item"><span class="tech-icon">📱</span>React Native (Expo)</div>
-            <div class="tech-item"><span class="tech-icon">🐻</span>Zustand State</div>
-            <div class="tech-item"><span class="tech-icon">💾</span>IndexedDB / SQLite</div>
-          </div>
-        </div>
-        <div class="tech-category">
-          <h3 class="tech-cat-title">DevOps</h3>
-          <div class="tech-items">
-            <div class="tech-item"><span class="tech-icon">📦</span>pnpm + Turbo Monorepo</div>
-            <div class="tech-item"><span class="tech-icon">🐳</span>Docker Compose</div>
-            <div class="tech-item"><span class="tech-icon">🔄</span>GitHub Actions CI/CD</div>
-            <div class="tech-item"><span class="tech-icon">✅</span>ESLint + Prettier + Husky</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- API Endpoints Section -->
-  <section class="section" id="api">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag">API Surface</span>
-        <h2 class="section-title">18 endpoint groups.<br/>Fully documented with Swagger.</h2>
-      </div>
-      <div class="api-tags">
-        <span class="api-tag api-tag-auth">auth</span>
-        <span class="api-tag api-tag-auth">tenants</span>
-        <span class="api-tag api-tag-auth">users</span>
-        <span class="api-tag api-tag-core">menu</span>
-        <span class="api-tag api-tag-core">tables</span>
-        <span class="api-tag api-tag-core">orders</span>
-        <span class="api-tag api-tag-core">kitchen</span>
-        <span class="api-tag api-tag-core">payments</span>
-        <span class="api-tag api-tag-core">customers</span>
-        <span class="api-tag api-tag-ops">staff</span>
-        <span class="api-tag api-tag-ops">reports</span>
-        <span class="api-tag api-tag-ops">audit</span>
-        <span class="api-tag api-tag-platform">notifications</span>
-        <span class="api-tag api-tag-platform">subscriptions</span>
-        <span class="api-tag api-tag-platform">export</span>
-        <span class="api-tag api-tag-platform">printers</span>
-        <span class="api-tag api-tag-platform">offline</span>
-        <span class="api-tag api-tag-platform">sync</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA Section -->
-  <section class="section section-cta">
-    <div class="container">
-      <div class="cta-content">
-        <h2 class="cta-title">Ready to explore?</h2>
-        <p class="cta-subtitle">The entire backend is open source. Clone it, run it, extend it.</p>
-        <div class="cta-code">
-          <code>git clone https://github.com/AK-627/POSCAFE.git && cd POSCAFE && npm install</code>
-        </div>
-        <a href="https://github.com/AK-627/POSCAFE" target="_blank" class="btn btn-primary btn-lg" rel="noopener">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-          <span>View on GitHub</span>
+        <a href="#kitchen" class="nav-item" data-view="kitchen">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9h18M9 21V9M15 21V9M5 21h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+          <span>Kitchen</span>
         </a>
+        <a href="#menu" class="nav-item" data-view="menu">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+          <span>Menu</span>
+        </a>
+        <a href="#staff" class="nav-item" data-view="staff">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          <span>Staff</span>
+        </a>
+        <a href="#reports" class="nav-item" data-view="reports">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+          <span>Reports</span>
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="user-info">
+          <div class="user-avatar">AK</div>
+          <div class="user-details">
+            <div class="user-name">Admin</div>
+            <div class="user-role">Owner</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main" id="main-content">
+
+      <!-- ═══ Dashboard View ═══ -->
+      <div class="view active" id="view-dashboard">
+        <div class="top-bar">
+          <div>
+            <h1 class="page-title">Dashboard</h1>
+            <p class="page-subtitle">Today's overview · <span id="current-date"></span></p>
+          </div>
+          <div class="top-bar-actions">
+            <button class="btn btn-outline btn-sm" onclick="location.reload()">↻ Refresh</button>
+          </div>
+        </div>
+        <div class="stats-grid" id="stats-grid"></div>
+        <div class="dashboard-grid">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Revenue This Week</h3>
+              <span class="card-badge">+12.5%</span>
+            </div>
+            <div class="chart-container" id="revenue-chart"></div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Recent Orders</h3>
+              <a href="#pos" class="card-link" data-view="pos">View All →</a>
+            </div>
+            <div class="recent-orders-list" id="recent-orders"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ POS View ═══ -->
+      <div class="view" id="view-pos">
+        <div class="pos-layout">
+          <div class="pos-menu">
+            <div class="pos-header">
+              <h1 class="page-title">Point of Sale</h1>
+            </div>
+            <div class="pos-categories" id="pos-categories"></div>
+            <div class="pos-items-grid" id="pos-items"></div>
+          </div>
+          <div class="pos-cart">
+            <div class="cart-header">
+              <span>Current Order</span>
+              <button class="btn btn-sm btn-outline" id="clear-cart-btn">Clear</button>
+            </div>
+            <div class="cart-items" id="cart-items">
+              <div class="cart-empty" id="cart-empty">
+                <p>🛒</p>
+                <p>Cart is empty</p>
+                <p class="cart-empty-hint">Tap items to add</p>
+              </div>
+            </div>
+            <div class="cart-summary" id="cart-summary" style="display:none">
+              <div class="summary-row"><span>Subtotal</span><span id="cart-subtotal">₹0</span></div>
+              <div class="summary-row"><span>Tax (5%)</span><span id="cart-tax">₹0</span></div>
+              <div class="summary-row"><span>Service (10%)</span><span id="cart-service">₹0</span></div>
+              <div class="summary-row total"><span>Total</span><span id="cart-total">₹0</span></div>
+              <button class="pay-btn" id="pay-btn">💳 Pay Now</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ Tables View ═══ -->
+      <div class="view" id="view-tables">
+        <div class="top-bar">
+          <div>
+            <h1 class="page-title">Floor Plan</h1>
+            <p class="page-subtitle">Manage table assignments and status</p>
+          </div>
+        </div>
+        <div class="table-legend">
+          <div class="legend-item"><span class="legend-dot" style="background:#10b981"></span>Available</div>
+          <div class="legend-item"><span class="legend-dot" style="background:#f43f5e"></span>Occupied</div>
+          <div class="legend-item"><span class="legend-dot" style="background:#f59e0b"></span>Reserved</div>
+          <div class="legend-item"><span class="legend-dot" style="background:#8b5cf6"></span>Cleaning</div>
+        </div>
+        <div class="tables-grid" id="tables-grid"></div>
+      </div>
+
+      <!-- ═══ Kitchen View ═══ -->
+      <div class="view" id="view-kitchen">
+        <div class="top-bar">
+          <div>
+            <h1 class="page-title">Kitchen Display</h1>
+            <p class="page-subtitle">Active orders queue</p>
+          </div>
+          <div class="top-bar-actions">
+            <div class="kitchen-stats">
+              <span class="kitchen-stat"><span class="ks-dot ks-dot-critical"></span><span id="critical-count">0</span> Critical</span>
+              <span class="kitchen-stat"><span class="ks-dot ks-dot-rush"></span><span id="rush-count">0</span> Rush</span>
+              <span class="kitchen-stat"><span class="ks-dot ks-dot-normal"></span><span id="normal-count">0</span> Normal</span>
+            </div>
+          </div>
+        </div>
+        <div class="kitchen-grid" id="kitchen-grid"></div>
+      </div>
+
+      <!-- ═══ Menu View ═══ -->
+      <div class="view" id="view-menu">
+        <div class="top-bar">
+          <div>
+            <h1 class="page-title">Menu Management</h1>
+            <p class="page-subtitle">Manage menu items and categories</p>
+          </div>
+          <div class="top-bar-actions">
+            <input type="text" class="menu-search" placeholder="Search items..." id="menu-search" />
+          </div>
+        </div>
+        <table class="menu-table">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Status</th>
+              <th>Orders Today</th>
+            </tr>
+          </thead>
+          <tbody id="menu-table-body"></tbody>
+        </table>
+      </div>
+
+      <!-- ═══ Staff View ═══ -->
+      <div class="view" id="view-staff">
+        <div class="top-bar">
+          <div>
+            <h1 class="page-title">Staff Management</h1>
+            <p class="page-subtitle">Team schedule & performance</p>
+          </div>
+        </div>
+        <div class="staff-grid" id="staff-grid"></div>
+      </div>
+
+      <!-- ═══ Reports View ═══ -->
+      <div class="view" id="view-reports">
+        <div class="top-bar">
+          <div>
+            <h1 class="page-title">Reports & Analytics</h1>
+            <p class="page-subtitle">Business insights and performance</p>
+          </div>
+          <div class="top-bar-actions">
+            <select class="period-select" id="report-period">
+              <option value="today">Today</option>
+              <option value="week" selected>This Week</option>
+              <option value="month">This Month</option>
+            </select>
+          </div>
+        </div>
+        <div class="stats-grid" id="report-stats"></div>
+        <div class="dashboard-grid" style="margin-top:20px">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Top Selling Items</h3>
+            </div>
+            <div id="top-items-list"></div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Peak Hours</h3>
+            </div>
+            <div class="peak-hours-chart" id="peak-hours-chart"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Payment Modal -->
+  <div class="modal-overlay" id="payment-modal">
+    <div class="modal">
+      <h2 class="modal-title">Complete Payment</h2>
+      <div class="modal-body">
+        <div class="payment-total-display">
+          <span>Total Amount</span>
+          <span class="payment-amount" id="modal-total">₹0</span>
+        </div>
+        <div class="payment-methods">
+          <button class="payment-method active" data-method="card">💳 Card</button>
+          <button class="payment-method" data-method="cash">💵 Cash</button>
+          <button class="payment-method" data-method="upi">📱 UPI</button>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-outline" id="cancel-payment">Cancel</button>
+        <button class="btn btn-primary" id="confirm-payment">Confirm Payment</button>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-content">
-        <span>Built with NestJS, TypeScript & ☕</span>
-        <span class="footer-divider">·</span>
-        <span>Sky Nether Café Management System</span>
-        <span class="footer-divider">·</span>
-        <span>MIT License</span>
-      </div>
-    </div>
-  </footer>
+  <!-- Success Toast -->
+  <div class="toast" id="toast">
+    <span class="toast-icon">✅</span>
+    <span class="toast-text" id="toast-text">Order placed successfully!</span>
+  </div>
 
-  <script>
-    // Navbar scroll effect
-    const nav = document.getElementById('nav');
-    window.addEventListener('scroll', () => {
-      nav.classList.toggle('nav-scrolled', window.scrollY > 50);
-    });
-
-    // Intersection Observer for scroll animations
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('animate-in');
-        }
-      });
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-
-    document.querySelectorAll('.feature-card, .module-card, .tech-category, .arch-layer').forEach(el => {
-      observer.observe(el);
-    });
-
-    // Smooth scrolling for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      });
-    });
-  </script>
+  <script src="app.js"></script>
 </body>
 </html>
