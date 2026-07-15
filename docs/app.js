@@ -1,6 +1,264 @@
 /* ═══════════════════════════════════════════════════════════════
    Sky Nether — Café Management System · Application Logic
+   v2.0 — Role-Based Authentication
    ═══════════════════════════════════════════════════════════════ */
+
+// ── User Database (simulated) ──────────────────────────────────
+// In production, passwords would be hashed (bcrypt) and stored
+// in a real database. This is a demo simulation.
+const USERS_DB = [
+  {
+    id: 1,
+    email: 'admin@skynether.cafe',
+    password: 'admin123', // Would be bcrypt hash in production
+    name: 'Arjun Kumar',
+    avatar: 'AK',
+    role: 'owner',
+    permissions: ['dashboard', 'pos', 'tables', 'kitchen', 'menu', 'staff', 'reports'],
+    canEdit: {
+      menuPrices: true,
+      taxSettings: true,
+      employees: true,
+      settings: true,
+    },
+  },
+  {
+    id: 2,
+    email: 'staff@skynether.cafe',
+    password: 'staff123',
+    name: 'Rahul Verma',
+    avatar: 'RV',
+    role: 'employee',
+    permissions: ['dashboard', 'pos', 'tables', 'kitchen'],
+    canEdit: {
+      menuPrices: false,
+      taxSettings: false,
+      employees: false,
+      settings: false,
+    },
+  },
+];
+
+// ── Authentication State ───────────────────────────────────────
+let currentUser = null;
+
+/** Simple hash for demo session tokens */
+function simpleHash(str) {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash |= 0;
+  }
+  return 'sn_' + Math.abs(hash).toString(36) + '_' + Date.now().toString(36);
+}
+
+/** Attempt login */
+function authenticate(email, password) {
+  const user = USERS_DB.find(
+    u => u.email.toLowerCase() === email.toLowerCase() && u.password === password
+  );
+  if (!user) return null;
+  // Return a sanitized session object (no raw password)
+  return {
+    id: user.id,
+    email: user.email,
+    name: user.name,
+    avatar: user.avatar,
+    role: user.role,
+    permissions: [...user.permissions],
+    canEdit: { ...user.canEdit },
+    token: simpleHash(user.email + user.password),
+  };
+}
+
+/** Save session */
+function saveSession(user, remember) {
+  const storage = remember ? localStorage : sessionStorage;
+  storage.setItem('sn_session', JSON.stringify(user));
+}
+
+/** Load session */
+function loadSession() {
+  const data = localStorage.getItem('sn_session') || sessionStorage.getItem('sn_session');
+  if (!data) return null;
+  try {
+    return JSON.parse(data);
+  } catch {
+    return null;
+  }
+}
+
+/** Clear session */
+function clearSession() {
+  localStorage.removeItem('sn_session');
+  sessionStorage.removeItem('sn_session');
+}
+
+/** Check if user has access to a view */
+function hasPermission(viewName) {
+  if (!currentUser) return false;
+  return currentUser.permissions.includes(viewName);
+}
+
+/** Check if user can edit a feature */
+function canEdit(feature) {
+  if (!currentUser) return false;
+  return currentUser.canEdit[feature] === true;
+}
+
+// ══════════════════════════════════════════════════════════════
+// LOGIN UI
+// ══════════════════════════════════════════════════════════════
+
+/** Fill demo credentials */
+function fillDemo(type) {
+  const emailEl = document.getElementById('login-email');
+  const passEl = document.getElementById('login-password');
+  if (type === 'owner') {
+    emailEl.value = 'admin@skynether.cafe';
+    passEl.value = 'admin123';
+  } else {
+    emailEl.value = 'staff@skynether.cafe';
+    passEl.value = 'staff123';
+  }
+  // Trigger input animation
+  emailEl.focus(); emailEl.blur();
+  passEl.focus(); passEl.blur();
+}
+
+/** Show login error */
+function showLoginError(msg) {
+  const el = document.getElementById('login-error');
+  el.textContent = msg;
+  el.classList.add('show');
+  // Re-trigger shake animation
+  el.style.animation = 'none';
+  el.offsetHeight; // reflow
+  el.style.animation = '';
+}
+
+/** Hide login error */
+function hideLoginError() {
+  document.getElementById('login-error').classList.remove('show');
+}
+
+/** Handle login form submit */
+function handleLogin(e) {
+  e.preventDefault();
+  hideLoginError();
+
+  const email = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+  const remember = document.getElementById('login-remember').checked;
+  const btn = document.getElementById('login-btn');
+
+  if (!email || !password) {
+    showLoginError('Please enter both email and password.');
+    return;
+  }
+
+  // Loading state
+  btn.classList.add('loading');
+
+  // Simulate network delay for realistic feel
+  setTimeout(() => {
+    const user = authenticate(email, password);
+
+    if (!user) {
+      btn.classList.remove('loading');
+      showLoginError('Invalid credentials. Please check your email and password.');
+      return;
+    }
+
+    // Success
+    currentUser = user;
+    saveSession(user, remember);
+    btn.classList.remove('loading');
+    enterApp();
+  }, 600);
+}
+
+/** Toggle password visibility */
+function setupPasswordToggle() {
+  const btn = document.getElementById('toggle-password');
+  const input = document.getElementById('login-password');
+  if (!btn || !input) return;
+  btn.addEventListener('click', () => {
+    const isPassword = input.type === 'password';
+    input.type = isPassword ? 'text' : 'password';
+    btn.innerHTML = isPassword
+      ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="18" height="18"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>'
+      : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="18" height="18"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+  });
+}
+
+/** Transition from login to app */
+function enterApp() {
+  const loginScreen = document.getElementById('login-screen');
+  const appEl = document.getElementById('app');
+
+  loginScreen.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+  loginScreen.style.opacity = '0';
+  loginScreen.style.transform = 'scale(1.02)';
+
+  setTimeout(() => {
+    loginScreen.classList.add('hidden');
+    appEl.classList.remove('hidden');
+    appEl.style.animation = 'fadeIn 0.4s ease';
+
+    // Configure the app for this user
+    updateSidebar();
+    initApp();
+    showToast('👋', `Welcome back, ${currentUser.name}!`);
+  }, 350);
+}
+
+/** Logout */
+function logout() {
+  clearSession();
+  currentUser = null;
+  cart = [];
+
+  const loginScreen = document.getElementById('login-screen');
+  const appEl = document.getElementById('app');
+
+  appEl.classList.add('hidden');
+  loginScreen.classList.remove('hidden');
+  loginScreen.style.opacity = '1';
+  loginScreen.style.transform = 'scale(1)';
+
+  // Reset form
+  document.getElementById('login-email').value = '';
+  document.getElementById('login-password').value = '';
+  document.getElementById('login-remember').checked = false;
+  hideLoginError();
+}
+
+// ══════════════════════════════════════════════════════════════
+// SIDEBAR & PERMISSIONS
+// ══════════════════════════════════════════════════════════════
+
+/** Update sidebar based on current user's role */
+function updateSidebar() {
+  if (!currentUser) return;
+
+  // Update user info
+  document.getElementById('sidebar-avatar').textContent = currentUser.avatar;
+  document.getElementById('sidebar-name').textContent = currentUser.name;
+  document.getElementById('sidebar-role').textContent =
+    currentUser.role.charAt(0).toUpperCase() + currentUser.role.slice(1);
+
+  // Show/hide nav items based on role
+  document.querySelectorAll('.nav-item[data-roles]').forEach(item => {
+    const allowedRoles = item.dataset.roles.split(',');
+    if (allowedRoles.includes(currentUser.role)) {
+      item.style.display = '';
+    } else {
+      item.style.display = 'none';
+    }
+  });
+}
 
 // ── Mock Data ──────────────────────────────────────────────────
 const MENU_ITEMS = [
@@ -86,8 +344,19 @@ let currentView = 'dashboard';
 let activeCategory = 'All';
 let orderCounter = 1043;
 
-// ── Router ─────────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════
+// ROUTER (with auth guard)
+// ══════════════════════════════════════════════════════════════
+
 function navigateTo(viewName) {
+  if (!currentUser) return;
+
+  // Route guard — check permission
+  if (viewName !== 'access-denied' && !hasPermission(viewName)) {
+    navigateTo('access-denied');
+    return;
+  }
+
   currentView = viewName;
 
   // Update active nav item
@@ -104,26 +373,21 @@ function navigateTo(viewName) {
 
   // Close mobile sidebar
   document.getElementById('sidebar')?.classList.remove('open');
-}
 
-// Init navigation
-document.querySelectorAll('[data-view]').forEach(el => {
-  el.addEventListener('click', (e) => {
-    e.preventDefault();
-    navigateTo(el.dataset.view);
-  });
-});
+  // Update hash (without triggering hashchange loop)
+  if (viewName !== 'access-denied') {
+    history.replaceState(null, '', '#' + viewName);
+  }
+}
 
 // Handle hash navigation
 function handleHash() {
   const hash = location.hash.replace('#', '') || 'dashboard';
   navigateTo(hash);
 }
-window.addEventListener('hashchange', handleHash);
 
 // ── Dashboard ──────────────────────────────────────────────────
 function renderDashboard() {
-  // Date
   const dateEl = document.getElementById('current-date');
   if (dateEl) {
     dateEl.textContent = new Date().toLocaleDateString('en-IN', {
@@ -131,7 +395,6 @@ function renderDashboard() {
     });
   }
 
-  // Stats
   const statsGrid = document.getElementById('stats-grid');
   if (statsGrid) {
     statsGrid.innerHTML = [
@@ -149,7 +412,6 @@ function renderDashboard() {
     `).join('');
   }
 
-  // Revenue chart
   const chartEl = document.getElementById('revenue-chart');
   if (chartEl) {
     const max = Math.max(...WEEK_REVENUE.map(d => d.value));
@@ -164,7 +426,6 @@ function renderDashboard() {
     }</div>`;
   }
 
-  // Recent orders
   const ordersEl = document.getElementById('recent-orders');
   if (ordersEl) {
     ordersEl.innerHTML = RECENT_ORDERS.map(o => `
@@ -247,7 +508,6 @@ function clearCart() {
 
 function renderCart() {
   const itemsEl = document.getElementById('cart-items');
-  const emptyEl = document.getElementById('cart-empty');
   const summaryEl = document.getElementById('cart-summary');
 
   if (!itemsEl) return;
@@ -285,37 +545,6 @@ function renderCart() {
   if (summaryEl) summaryEl.style.display = 'block';
 }
 
-// Cart buttons
-document.getElementById('clear-cart-btn')?.addEventListener('click', clearCart);
-document.getElementById('pay-btn')?.addEventListener('click', () => {
-  if (cart.length === 0) return;
-  const subtotal = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
-  const total = subtotal + Math.round(subtotal * 0.05) + Math.round(subtotal * 0.10);
-  document.getElementById('modal-total').textContent = '₹' + total.toLocaleString();
-  document.getElementById('payment-modal').classList.add('active');
-});
-
-// Payment modal
-document.getElementById('cancel-payment')?.addEventListener('click', () => {
-  document.getElementById('payment-modal').classList.remove('active');
-});
-
-document.getElementById('confirm-payment')?.addEventListener('click', () => {
-  document.getElementById('payment-modal').classList.remove('active');
-  orderCounter++;
-  cart = [];
-  renderCart();
-  showToast('✅', `Order #${orderCounter} placed successfully!`);
-});
-
-// Payment method buttons
-document.querySelectorAll('.payment-method').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.payment-method').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-  });
-});
-
 // ── Tables ─────────────────────────────────────────────────────
 function renderTables() {
   const grid = document.getElementById('tables-grid');
@@ -348,7 +577,6 @@ function renderKitchen() {
   const grid = document.getElementById('kitchen-grid');
   if (!grid) return;
 
-  // Sort: critical first, then rush, then normal
   const priorityOrder = { critical: 0, rush: 1, normal: 2 };
   const sorted = [...KITCHEN_ORDERS].sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
 
@@ -377,7 +605,6 @@ function renderKitchen() {
     </div>
   `).join('');
 
-  // Update counters
   const counts = { critical: 0, rush: 0, normal: 0 };
   KITCHEN_ORDERS.forEach(o => counts[o.priority]++);
   const ce = document.getElementById('critical-count');
@@ -415,6 +642,7 @@ function renderMenu() {
 function renderMenuItems(items) {
   const tbody = document.getElementById('menu-table-body');
   if (!tbody) return;
+  const isOwner = currentUser && currentUser.role === 'owner';
   tbody.innerHTML = items.map(item => `
     <tr>
       <td>
@@ -430,6 +658,7 @@ function renderMenuItems(items) {
       <td style="font-weight:700;color:var(--green)">₹${item.price}</td>
       <td><span class="badge ${item.available ? 'badge-available' : 'badge-unavailable'}">${item.available ? 'Available' : 'Unavailable'}</span></td>
       <td style="font-family:var(--font-mono)">${item.orders}</td>
+      ${isOwner ? `<td><button class="btn btn-sm btn-outline" onclick="showToast('✏️','Edit feature coming soon')">Edit</button></td>` : ''}
     </tr>
   `).join('');
 }
@@ -438,6 +667,7 @@ function renderMenuItems(items) {
 function renderStaff() {
   const grid = document.getElementById('staff-grid');
   if (!grid) return;
+  const isOwner = currentUser && currentUser.role === 'owner';
   grid.innerHTML = STAFF.map(s => `
     <div class="card" style="display:flex;gap:16px;align-items:center">
       <div style="width:48px;height:48px;border-radius:50%;background:var(--gradient-primary);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9rem;color:#fff;flex-shrink:0">${s.avatar}</div>
@@ -450,6 +680,7 @@ function renderStaff() {
         </div>
       </div>
       <span class="badge ${s.status === 'active' ? 'badge-available' : 'badge-popular'}">${s.status}</span>
+      ${isOwner ? `<button class="btn btn-sm btn-outline" onclick="showToast('✏️','Edit feature coming soon')">Edit</button>` : ''}
     </div>
   `).join('');
 }
@@ -473,7 +704,6 @@ function renderReports() {
     `).join('');
   }
 
-  // Top items
   const topItems = [...MENU_ITEMS].sort((a, b) => b.orders - a.orders).slice(0, 6);
   const topEl = document.getElementById('top-items-list');
   if (topEl) {
@@ -489,7 +719,6 @@ function renderReports() {
     `).join('');
   }
 
-  // Peak hours
   const peakEl = document.getElementById('peak-hours-chart');
   if (peakEl) {
     const hours = [
@@ -512,16 +741,21 @@ function renderReports() {
 function showToast(icon, text) {
   const toast = document.getElementById('toast');
   if (!toast) return;
-  const iconEl = document.getElementById('toast-icon') || toast.querySelector('.toast-icon');
+  const iconEl = toast.querySelector('.toast-icon');
   const textEl = document.getElementById('toast-text');
   if (iconEl) iconEl.textContent = icon;
   if (textEl) textEl.textContent = text;
   toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 3000);
+  clearTimeout(window._toastTimer);
+  window._toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
 }
 
-// ── Initialize ─────────────────────────────────────────────────
-function init() {
+// ══════════════════════════════════════════════════════════════
+// INITIALIZATION
+// ══════════════════════════════════════════════════════════════
+
+/** Init the app after login */
+function initApp() {
   renderDashboard();
   renderPOS();
   renderCart();
@@ -530,7 +764,74 @@ function init() {
   renderMenu();
   renderStaff();
   renderReports();
+
+  // Wire up nav
+  document.querySelectorAll('[data-view]').forEach(el => {
+    // Remove old listeners by cloning
+    const clone = el.cloneNode(true);
+    el.parentNode.replaceChild(clone, el);
+    clone.addEventListener('click', (e) => {
+      e.preventDefault();
+      navigateTo(clone.dataset.view);
+    });
+  });
+
+  // Wire up cart & payment buttons
+  document.getElementById('clear-cart-btn')?.addEventListener('click', clearCart);
+  document.getElementById('pay-btn')?.addEventListener('click', () => {
+    if (cart.length === 0) return;
+    const subtotal = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+    const total = subtotal + Math.round(subtotal * 0.05) + Math.round(subtotal * 0.10);
+    document.getElementById('modal-total').textContent = '₹' + total.toLocaleString();
+    document.getElementById('payment-modal').classList.add('active');
+  });
+
+  document.getElementById('cancel-payment')?.addEventListener('click', () => {
+    document.getElementById('payment-modal').classList.remove('active');
+  });
+
+  document.getElementById('confirm-payment')?.addEventListener('click', () => {
+    document.getElementById('payment-modal').classList.remove('active');
+    orderCounter++;
+    cart = [];
+    renderCart();
+    showToast('✅', `Order #${orderCounter} placed successfully!`);
+  });
+
+  document.querySelectorAll('.payment-method').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.payment-method').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  // Navigate to default view
   handleHash();
 }
 
-document.addEventListener('DOMContentLoaded', init);
+/** Boot — called once on DOMContentLoaded */
+function boot() {
+  // Setup login form
+  document.getElementById('login-form')?.addEventListener('submit', handleLogin);
+  setupPasswordToggle();
+
+  // Logout button
+  document.getElementById('logout-btn')?.addEventListener('click', () => {
+    logout();
+    showToast('👋', 'Logged out successfully');
+  });
+
+  // Hash change
+  window.addEventListener('hashchange', () => {
+    if (currentUser) handleHash();
+  });
+
+  // Check for existing session
+  const savedSession = loadSession();
+  if (savedSession) {
+    currentUser = savedSession;
+    enterApp();
+  }
+}
+
+document.addEventListener('DOMContentLoaded', boot);

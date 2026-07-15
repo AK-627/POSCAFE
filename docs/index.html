@@ -11,51 +11,121 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="app" id="app">
+  <!-- ═══ Login Screen ═══ -->
+  <div class="login-screen" id="login-screen">
+    <div class="login-bg">
+      <div class="login-glow login-glow-1"></div>
+      <div class="login-glow login-glow-2"></div>
+      <div class="login-grid-bg"></div>
+    </div>
+    <div class="login-card">
+      <div class="login-header">
+        <span class="login-logo">☕</span>
+        <h1 class="login-title">Sky Nether</h1>
+        <p class="login-subtitle">Café Management System</p>
+      </div>
+      <form class="login-form" id="login-form" autocomplete="on">
+        <div class="login-error" id="login-error"></div>
+        <div class="login-field">
+          <label for="login-email">Email / Employee ID</label>
+          <div class="login-input-wrap">
+            <svg class="login-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <input type="text" id="login-email" placeholder="admin@skynether.cafe" required autocomplete="username" />
+          </div>
+        </div>
+        <div class="login-field">
+          <label for="login-password">Password</label>
+          <div class="login-input-wrap">
+            <svg class="login-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            <input type="password" id="login-password" placeholder="••••••••" required autocomplete="current-password" />
+            <button type="button" class="login-eye-btn" id="toggle-password" aria-label="Toggle password">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="18" height="18"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="login-options">
+          <label class="login-remember">
+            <input type="checkbox" id="login-remember" />
+            <span class="checkbox-custom"></span>
+            Remember me
+          </label>
+          <a href="#" class="login-forgot" onclick="event.preventDefault(); showToast('📧','Password reset link sent to your email')">Forgot password?</a>
+        </div>
+        <button type="submit" class="login-btn" id="login-btn">
+          <span>Sign In</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </form>
+      <div class="login-demo-accounts">
+        <p class="demo-label">Demo Accounts</p>
+        <button class="demo-account" onclick="fillDemo('owner')">
+          <span class="demo-avatar da-owner">AK</span>
+          <div class="demo-info">
+            <span class="demo-name">Owner Account</span>
+            <span class="demo-email">admin@skynether.cafe</span>
+          </div>
+          <span class="demo-role-badge demo-badge-owner">Owner</span>
+        </button>
+        <button class="demo-account" onclick="fillDemo('employee')">
+          <span class="demo-avatar da-employee">RV</span>
+          <div class="demo-info">
+            <span class="demo-name">Employee Account</span>
+            <span class="demo-email">staff@skynether.cafe</span>
+          </div>
+          <span class="demo-role-badge demo-badge-employee">Employee</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="app hidden" id="app">
     <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-header">
         <span class="logo-icon">☕</span>
         <span class="logo-text">Sky Nether</span>
       </div>
-      <nav class="sidebar-nav">
-        <a href="#dashboard" class="nav-item active" data-view="dashboard">
+      <nav class="sidebar-nav" id="sidebar-nav">
+        <a href="#dashboard" class="nav-item active" data-view="dashboard" data-roles="owner,employee">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
           <span>Dashboard</span>
         </a>
-        <a href="#pos" class="nav-item" data-view="pos">
+        <a href="#pos" class="nav-item" data-view="pos" data-roles="owner,employee">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h4M6 12h8M6 16h6"/></svg>
           <span>POS</span>
         </a>
-        <a href="#tables" class="nav-item" data-view="tables">
+        <a href="#tables" class="nav-item" data-view="tables" data-roles="owner,employee">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
           <span>Tables</span>
         </a>
-        <a href="#kitchen" class="nav-item" data-view="kitchen">
+        <a href="#kitchen" class="nav-item" data-view="kitchen" data-roles="owner,employee">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9h18M9 21V9M15 21V9M5 21h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
           <span>Kitchen</span>
         </a>
-        <a href="#menu" class="nav-item" data-view="menu">
+        <a href="#menu" class="nav-item" data-view="menu" data-roles="owner">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
           <span>Menu</span>
         </a>
-        <a href="#staff" class="nav-item" data-view="staff">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        <a href="#staff" class="nav-item" data-view="staff" data-roles="owner">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 010 7.75"/></svg>
           <span>Staff</span>
         </a>
-        <a href="#reports" class="nav-item" data-view="reports">
+        <a href="#reports" class="nav-item" data-view="reports" data-roles="owner">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
           <span>Reports</span>
         </a>
       </nav>
       <div class="sidebar-footer">
         <div class="user-info">
-          <div class="user-avatar">AK</div>
+          <div class="user-avatar" id="sidebar-avatar">AK</div>
           <div class="user-details">
-            <div class="user-name">Admin</div>
-            <div class="user-role">Owner</div>
+            <div class="user-name" id="sidebar-name">Admin</div>
+            <div class="user-role" id="sidebar-role">Owner</div>
           </div>
         </div>
+        <button class="logout-btn" id="logout-btn" title="Logout">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="18" height="18"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+        </button>
       </div>
     </aside>
 
@@ -225,6 +295,16 @@
             </div>
             <div class="peak-hours-chart" id="peak-hours-chart"></div>
           </div>
+        </div>
+      </div>
+
+      <!-- ═══ Access Denied View ═══ -->
+      <div class="view" id="view-access-denied">
+        <div class="access-denied">
+          <div class="ad-icon">🔒</div>
+          <h2 class="ad-title">Access Denied</h2>
+          <p class="ad-message">You don't have permission to view this page.<br/>Contact your administrator to request access.</p>
+          <button class="btn btn-primary" onclick="navigateTo('dashboard')">← Back to Dashboard</button>
         </div>
       </div>
     </main>
