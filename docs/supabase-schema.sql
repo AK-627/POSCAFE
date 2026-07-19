@@ -263,11 +263,21 @@ CREATE POLICY "All authenticated users can read settings"
   TO authenticated
   USING (true);
 
-CREATE POLICY "Only owners can modify settings"
-  ON public.settings FOR ALL
+CREATE POLICY "Only owners can insert settings"
+  ON public.settings FOR INSERT
+  TO authenticated
+  WITH CHECK (public.get_user_role() = 'owner');
+
+CREATE POLICY "Only owners can update settings"
+  ON public.settings FOR UPDATE
   TO authenticated
   USING (public.get_user_role() = 'owner')
   WITH CHECK (public.get_user_role() = 'owner');
+
+CREATE POLICY "Only owners can delete settings"
+  ON public.settings FOR DELETE
+  TO authenticated
+  USING (public.get_user_role() = 'owner');
 
 
 -- ═══════════════════════════════════════════════════════════════
