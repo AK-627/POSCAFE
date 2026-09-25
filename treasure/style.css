@@ -1,0 +1,276 @@
+/* ============================================
+   TREASURE HUNT — FINAL LOCK
+   Dark, mysterious theme — mobile-first
+   ============================================ */
+
+/* --- Reset & Base --- */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: #0a0a0f;
+  color: #e0ddd5;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --- Background texture --- */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(139, 109, 56, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 100%, rgba(80, 60, 30, 0.06) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* --- Screens --- */
+.screen {
+  display: none;
+  min-height: 100dvh;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 1.25rem;
+  position: relative;
+  z-index: 1;
+}
+
+.screen.active {
+  display: flex;
+}
+
+.container {
+  width: 100%;
+  max-width: 480px;
+  text-align: center;
+}
+
+/* --- Landing Screen --- */
+.lock-icon {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  filter: drop-shadow(0 0 20px rgba(200, 170, 80, 0.3));
+}
+
+.title {
+  font-family: 'Cinzel', serif;
+  font-weight: 900;
+  font-size: clamp(2.2rem, 8vw, 3.2rem);
+  letter-spacing: 0.15em;
+  color: #d4b864;
+  text-shadow: 0 0 30px rgba(212, 184, 100, 0.15);
+  line-height: 1.1;
+}
+
+.divider {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #d4b864, transparent);
+  margin: 1.25rem auto;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #c0bdb5;
+  margin-bottom: 0.75rem;
+}
+
+.flavor-text {
+  font-size: 0.9rem;
+  color: #7a776e;
+  line-height: 1.6;
+  max-width: 340px;
+  margin: 0 auto 2.5rem;
+}
+
+/* --- Buttons --- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.btn-primary {
+  background-color: #d4b864;
+  color: #0a0a0f;
+  font-size: 1.05rem;
+  padding: 0.9rem 3rem;
+  border-radius: 4px;
+  min-width: 180px;
+  box-shadow: 0 4px 20px rgba(212, 184, 100, 0.15);
+}
+
+.btn-primary:hover {
+  background-color: #e0c972;
+  box-shadow: 0 4px 28px rgba(212, 184, 100, 0.25);
+}
+
+.btn-primary:active {
+  transform: scale(0.97);
+  background-color: #c5a84f;
+}
+
+/* --- Code Entry Screen --- */
+.screen-title {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: clamp(1.4rem, 5vw, 1.8rem);
+  letter-spacing: 0.1em;
+  color: #d4b864;
+  margin-bottom: 0.4rem;
+}
+
+.screen-subtitle {
+  font-size: 0.9rem;
+  color: #7a776e;
+  margin-bottom: 2rem;
+}
+
+.code-inputs {
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-bottom: 1.25rem;
+}
+
+.code-box {
+  width: clamp(48px, 13vw, 62px);
+  height: clamp(56px, 15vw, 72px);
+  background-color: #141419;
+  border: 2px solid #2a2a32;
+  border-radius: 6px;
+  color: #e0ddd5;
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.4rem, 5vw, 1.8rem);
+  font-weight: 700;
+  text-align: center;
+  caret-color: #d4b864;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.code-box:focus {
+  border-color: #d4b864;
+  box-shadow: 0 0 0 3px rgba(212, 184, 100, 0.12);
+}
+
+.code-box.error {
+  border-color: #c0392b;
+  box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.12);
+}
+
+.code-box.filled {
+  border-color: #3a3a44;
+}
+
+/* --- Feedback --- */
+.feedback {
+  min-height: 2rem;
+  margin-bottom: 1.25rem;
+  font-size: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feedback.wrong {
+  color: #e74c3c;
+}
+
+.feedback.correct {
+  color: #2ecc71;
+}
+
+/* --- Success Screen --- */
+.success-badge {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+}
+
+.accepted-text {
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: #2ecc71;
+  margin-bottom: 1.5rem;
+}
+
+.congrats-title {
+  font-family: 'Cinzel', serif;
+  font-weight: 900;
+  font-size: clamp(1.6rem, 6vw, 2.2rem);
+  color: #d4b864;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.25rem;
+}
+
+.treasure-message {
+  margin-top: 1.5rem;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #c0bdb5;
+}
+
+.treasure-instruction {
+  margin-top: 1rem;
+  padding: 1.25rem 1.5rem;
+  background-color: rgba(212, 184, 100, 0.06);
+  border: 1px solid rgba(212, 184, 100, 0.15);
+  border-radius: 6px;
+  font-size: 0.95rem;
+  color: #e0ddd5;
+}
+
+.treasure-instruction strong {
+  color: #d4b864;
+}
+
+/* --- Fade transition --- */
+.screen.fade-out {
+  animation: fadeOut 0.3s ease forwards;
+}
+
+.screen.fade-in {
+  animation: fadeIn 0.4s ease forwards;
+}
+
+@keyframes fadeOut {
+  to { opacity: 0; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Responsive tweaks --- */
+@media (max-width: 360px) {
+  .code-inputs {
+    gap: 0.4rem;
+  }
+}

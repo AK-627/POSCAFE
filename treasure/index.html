@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Final Lock — Treasure Hunt</title>
+  <meta name="description" content="The final challenge awaits. Enter the correct code to unlock the treasure.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ===== SCREEN 1: LANDING ===== -->
+  <section id="screen-landing" class="screen active">
+    <div class="container">
+      <div class="lock-icon">🔒</div>
+      <h1 class="title">FINAL LOCK</h1>
+      <div class="divider"></div>
+      <p class="subtitle">You have reached the final stage.</p>
+      <p class="flavor-text">One code stands between your team and the treasure. There are no hints. No second chances. Enter wisely.</p>
+      <button id="btn-start" class="btn btn-primary" type="button">START</button>
+    </div>
+  </section>
+
+  <!-- ===== SCREEN 2: CODE ENTRY ===== -->
+  <section id="screen-code" class="screen">
+    <div class="container">
+      <h2 class="screen-title">ENTER THE CODE</h2>
+      <p class="screen-subtitle">5 letters. No hints.</p>
+
+      <div id="code-inputs" class="code-inputs">
+        <input type="text" class="code-box" maxlength="1" inputmode="text" autocomplete="off" autocapitalize="characters" aria-label="Letter 1" data-index="0">
+        <input type="text" class="code-box" maxlength="1" inputmode="text" autocomplete="off" autocapitalize="characters" aria-label="Letter 2" data-index="1">
+        <input type="text" class="code-box" maxlength="1" inputmode="text" autocomplete="off" autocapitalize="characters" aria-label="Letter 3" data-index="2">
+        <input type="text" class="code-box" maxlength="1" inputmode="text" autocomplete="off" autocapitalize="characters" aria-label="Letter 4" data-index="3">
+        <input type="text" class="code-box" maxlength="1" inputmode="text" autocomplete="off" autocapitalize="characters" aria-label="Letter 5" data-index="4">
+      </div>
+
+      <div id="feedback" class="feedback" aria-live="polite"></div>
+
+      <button id="btn-submit" class="btn btn-primary" type="button">SUBMIT</button>
+    </div>
+  </section>
+
+  <!-- ===== SCREEN 3: SUCCESS ===== -->
+  <section id="screen-success" class="screen">
+    <div class="container">
+      <div class="success-badge">✅</div>
+      <p class="accepted-text">CODE ACCEPTED</p>
+      <h2 class="congrats-title">🎉 CONGRATULATIONS! 🎉</h2>
+      <div class="divider"></div>
+      <div class="treasure-message">
+        <p>You've unlocked the final treasure!</p>
+        <p class="treasure-instruction">Head to the <strong>old oak tree behind the library</strong> and look under the third stone from the left. Your prize awaits.</p>
+      </div>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
